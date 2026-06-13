@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Security Monitoring Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">S</div>
+          <div>
+            <strong>SentinelOps</strong>
+            <span>Security Center</span>
+          </div>
+        </div>
+
+        <nav class="nav-list" aria-label="Primary">
+          <button class="nav-item active" type="button" title="Overview">
+            <span data-lucide="layout-dashboard"></span>
+            <span>Overview</span>
+          </button>
+          <button class="nav-item" type="button" title="Incidents">
+            <span data-lucide="siren"></span>
+            <span>Incidents</span>
+          </button>
+          <button class="nav-item" type="button" title="Endpoints">
+            <span data-lucide="monitor-check"></span>
+            <span>Endpoints</span>
+          </button>
+          <button class="nav-item" type="button" title="Network">
+            <span data-lucide="network"></span>
+            <span>Network</span>
+          </button>
+          <button class="nav-item" type="button" title="Reports">
+            <span data-lucide="file-bar-chart"></span>
+            <span>Reports</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-status">
+          <div class="status-dot"></div>
+          <div>
+            <strong>Live telemetry</strong>
+            <span>Updated 12 sec ago</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Security Monitoring Dashboard</p>
+            <h1>Threat operations overview</h1>
+          </div>
+          <div class="topbar-actions">
+            <div class="search">
+              <span data-lucide="search"></span>
+              <input type="search" placeholder="Search alerts, hosts, users" aria-label="Search" />
+            </div>
+            <button class="icon-button" type="button" title="Notifications">
+              <span data-lucide="bell"></span>
+            </button>
+            <button class="primary-button" type="button">
+              <span data-lucide="download"></span>
+              Export
+            </button>
+          </div>
+        </header>
+
+        <section class="control-strip" aria-label="Dashboard filters">
+          <div class="segmented" role="group" aria-label="Time range">
+            <button class="active" type="button">24h</button>
+            <button type="button">7d</button>
+            <button type="button">30d</button>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" checked />
+            <span></span>
+            Auto refresh
+          </label>
+          <label class="range-control">
+            Risk threshold
+            <input id="threshold" type="range" min="20" max="95" value="72" />
+            <output id="thresholdValue">72</output>
+          </label>
+        </section>
+
+        <section class="metric-grid" aria-label="Security metrics">
+          <article class="metric-card severe">
+            <div class="metric-icon"><span data-lucide="shield-alert"></span></div>
+            <div>
+              <span>Critical alerts</span>
+              <strong>17</strong>
+              <small>+4 from yesterday</small>
+            </div>
+          </article>
+          <article class="metric-card">
+            <div class="metric-icon"><span data-lucide="activity"></span></div>
+            <div>
+              <span>Events analyzed</span>
+              <strong>1.28M</strong>
+              <small>99.8% pipeline health</small>
+            </div>
+          </article>
+          <article class="metric-card warn">
+            <div class="metric-icon"><span data-lucide="user-x"></span></div>
+            <div>
+              <span>Failed logins</span>
+              <strong>2,438</strong>
+              <small>8 risky accounts</small>
+            </div>
+          </article>
+          <article class="metric-card good">
+            <div class="metric-icon"><span data-lucide="check-circle-2"></span></div>
+            <div>
+              <span>Resolved incidents</span>
+              <strong>94%</strong>
+              <small>MTTR 38 minutes</small>
+            </div>
+          </article>
+        </section>
+
+        <section class="dashboard-grid">
+          <div class="panel threat-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Threat activity</h2>
+                <p>Correlated detections across network, identity, and endpoint sensors.</p>
+              </div>
+              <button class="icon-button" type="button" title="More options">
+                <span data-lucide="ellipsis"></span>
+              </button>
+            </div>
+            <div class="chart-wrap">
+              <canvas id="threatChart" aria-label="Threat activity chart"></canvas>
+            </div>
+          </div>
+
+          <div class="panel risk-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Risk posture</h2>
+                <p>Weighted exposure score by control family.</p>
+              </div>
+            </div>
+            <div class="risk-score">
+              <svg viewBox="0 0 120 120" role="img" aria-label="Risk score 72">
+                <circle class="track" cx="60" cy="60" r="48"></circle>
+                <circle class="progress" cx="60" cy="60" r="48"></circle>
+              </svg>
+              <div>
+                <strong>72</strong>
+                <span>Elevated</span>
+              </div>
+            </div>
+            <div class="risk-list">
+              <div><span>Identity</span><meter min="0" max="100" value="84"></meter></div>
+              <div><span>Endpoint</span><meter min="0" max="100" value="68"></meter></div>
+              <div><span>Network</span><meter min="0" max="100" value="57"></meter></div>
+            </div>
+          </div>
+
+          <div class="panel incident-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Active incidents</h2>
+                <p>Prioritized queue for response teams.</p>
+              </div>
+              <button class="secondary-button" type="button">
+                <span data-lucide="plus"></span>
+                New case
+              </button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Incident</th>
+                    <th>Severity</th>
+                    <th>Owner</th>
+                    <th>Status</th>
+                    <th>Age</th>
+                  </tr>
+                </thead>
+                <tbody id="incidentRows"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel feed-panel">
+            <div class="panel-header">
+              <div>
+                <h2>Live alert feed</h2>
+                <p>Latest normalized security events.</p>
+              </div>
+            </div>
+            <ol class="alert-feed" id="alertFeed"></ol>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
